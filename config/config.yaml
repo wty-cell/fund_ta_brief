@@ -1,0 +1,190 @@
+crawler:
+  request_interval: 3
+  timeout: 30
+  retry_times: 3
+  headless: true
+
+  regulator:
+    enabled: true
+    sources:
+      - name: "证监会"
+        url: "http://www.csrc.gov.cn/csrc/c100028/common_xq_list.shtml"
+        preferred: "playwright"
+        fallback: "requests"
+      - name: "中国结算-要闻动态"
+        url: "http://www.chinaclear.cn/zdjs/gsdtnew/index.shtml"
+        preferred: "playwright"
+        fallback: "requests"
+      - name: "中国结算-通知公告"
+        url: "http://www.chinaclear.cn/zdjs/tzgg/index.shtml"
+        preferred: "playwright"
+        fallback: "requests"
+      - name: "中国结算-业务通知"
+        url: "http://www.chinaclear.cn/zdjs/ywtz/index.shtml"
+        preferred: "playwright"
+        fallback: "requests"
+      - name: "基金业协会"
+        url: "https://www.amac.org.cn/xwfb/tzgg/"
+        preferred: "playwright"
+        fallback: "requests"
+    max_articles_per_source: 20
+
+  market:
+    enabled: true
+    use_akshare: true
+    frequency: "daily"
+    stock_indices:
+      - name: "上证指数"
+        akshare_code: "sh000001"
+      - name: "深证成指"
+        akshare_code: "sz399001"
+      - name: "沪深300"
+        akshare_code: "sh000300"
+      - name: "创业板指"
+        akshare_code: "sz399006"
+    bond_indices:
+      - name: "中证全债"
+        akshare_code: "sz399973"
+      - name: "国债指数"
+        akshare_code: "sh000012"
+
+  news:
+    enabled: true
+    sources:
+      - name: "新华网财经"
+        url: "http://www.xinhuanet.com/fortune/"
+        preferred: "playwright"
+        fallback: "requests"
+      - name: "人民网财经"
+        url: "http://finance.people.com.cn/"
+        preferred: "requests"
+        fallback: "playwright"
+    max_articles_per_source: 30
+
+filter:
+  regulator_keywords:
+    - "TA"
+    - "注册登记"
+    - "份额"
+    - "清算"
+    - "交收"
+    - "代销"
+    - "销售机构"
+    - "基金账户"
+    - "确权"
+    - "分红"
+    - "折算"
+    - "合并"
+    - "分拆"
+    - "申购"
+    - "赎回"
+    - "转换"
+    - "定投"
+    - "认购"
+    - "募集"
+    - "资产管理"
+    - "REITs"
+    - "ETF"
+    - "LOF"
+    - "货币基金"
+    - "债券基金"
+
+  regulator_exclude_keywords:
+    - "股票"
+    - "期货"
+    - "期权"
+    - "证券交易"
+    - "上市公司"
+    - "IPO"
+    - "配股"
+    - "增发"
+    - "可转债"
+    - "科创板"
+    - "创业板注册制"
+    - "学习贯彻"
+    - "党的"
+    - "党建"
+    - "纪检"
+    - "八项规定"
+    - "民主生活会"
+    - "调研"
+    - "问答"
+    - "致辞"
+    - "会见"
+    - "论坛"
+    - "投资者保护"
+
+  news_flash_include_keywords:
+    - "央行"
+    - "货币政策"
+    - "证监会"
+    - "基金"
+    - "A股"
+    - "上市公司"
+    - "经济政策"
+    - "财政政策"
+    - "降息"
+    - "降准"
+    - "汇率"
+    - "国债"
+    - "人工智能"
+    - "新能源"
+    - "半导体"
+    - "资本市场"
+    - "金融"
+    - "银行"
+    - "保险"
+    - "债券"
+    - "理财"
+    - "投资"
+    - "市场"
+    - "政策"
+    - "监管"
+    - "行业"
+    - "证券"
+    - "信托"
+    - "资管"
+    - "券商"
+
+  news_flash_exclude_keywords:
+    - "娱乐"
+    - "明星"
+    - "体育"
+    - "足球"
+    - "篮球"
+    - "育儿"
+    - "美食"
+    - "旅游"
+    - "游戏"
+    - "动漫"
+    - "影视"
+
+summarizer:
+  max_chars: 50
+  method: "llm"
+  llm:
+    provider: "deepseek"
+    model: "deepseek-chat"
+    base_url: "https://api.deepseek.com"
+
+email:
+  enabled: true
+  subject_prefix: "【基金TA每日简报】"
+  test_mode: false
+
+  sender:
+    address: ""
+    smtp_server: ""
+    smtp_port: 465
+    use_ssl: true
+
+  recipients:
+    - "wangtianyi020109@126.com"
+
+data:
+  retention_days: 7
+  logs_retention_days: 30
+
+schedule:
+  enabled: false
+  run_time: "08:00"
